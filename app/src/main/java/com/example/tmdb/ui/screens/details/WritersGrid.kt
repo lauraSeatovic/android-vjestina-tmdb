@@ -1,4 +1,4 @@
-package com.example.tmdb.ui
+package com.example.tmdb.ui.screens.details
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -7,25 +7,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tmdb.WritersData
+import com.example.tmdb.data.WritersData
 
 
 @Composable
-fun WritersGrid(quantity: Int, names: List<WritersData>){
+fun WritersGrid(quantity: Int, names: List<WritersData>) {
     var rows: Int = quantity / 3
-    if(quantity % 3 != 0){
-        rows+=1
+    if (quantity % 3 != 0) {
+        rows += 1
     }
 
-    var counter: Int = 0
-    var counterRows: Int = 0
+    var counter = 0
+    var counterRows = 0
     var counterColumns: Int
-    Column(modifier = Modifier
-        .padding(top = 20.dp, start = 20.dp, end = 20.dp)
-        .fillMaxWidth(),
+    Column(
+        modifier = Modifier
+            .padding(top = 20.dp, start = 20.dp, end = 20.dp)
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(30.dp)
     ) {
-        while(counterRows < rows){
+        while (counterRows < rows) {
             counterColumns = 0
             Row(horizontalArrangement = Arrangement.spacedBy(30.dp)) {
                 while ((counterColumns < 3) and (counter < quantity)) {
@@ -42,8 +43,7 @@ fun WritersGrid(quantity: Int, names: List<WritersData>){
                     }
                 }
             }
-            counterRows+=1
-
+            counterRows += 1
         }
     }
 }

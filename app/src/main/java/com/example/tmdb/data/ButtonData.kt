@@ -1,4 +1,4 @@
-package com.example.tmdb
+package com.example.tmdb.data
 
 data class ButtonData(
     val id: Int,

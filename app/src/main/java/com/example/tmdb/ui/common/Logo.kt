@@ -1,4 +1,4 @@
-package com.example.tmdb.ui
+package com.example.tmdb.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,20 +14,19 @@ import com.example.tmdb.ui.theme.DeepBlue
 
 @Preview
 @Composable
-fun Logo(){
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(80.dp)
-        .background(DeepBlue)
-    ){
+fun Logo() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp)
+            .background(DeepBlue)
+    ) {
         Image(
             painter = painterResource(id = R.drawable.logo), contentDescription = "logo",
             modifier = Modifier
                 .width(143.dp)
                 .height(45.dp)
                 .align(Alignment.BottomCenter)
-
-
         )
     }
 }

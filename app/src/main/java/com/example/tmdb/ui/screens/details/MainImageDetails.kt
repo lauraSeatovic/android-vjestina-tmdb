@@ -1,4 +1,4 @@
-package com.example.tmdb.ui
+package com.example.tmdb.ui.screens.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -20,101 +20,68 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.example.tmdb.R
-import com.example.tmdb.ui.theme.DeepBlue
 import com.example.tmdb.ui.theme.GrayCircle
 
 
 @Composable
-fun MainImageDetails(painter: Painter
-                     , title : String
-                     , year : Int
-                     , date: String
-                     , genre : String
-                     ,duration: String
+fun MainImageDetails(
+    painter: Painter,
+    title: String,
+    year: Int,
+    date: String,
+    genre: String,
+    duration: String,
+    score: Float
 
-){
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(303.dp)
-        .zIndex(5f)
-    ) {
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize(),
-            contentScale = ContentScale.Crop,
-            alignment = Alignment.TopCenter
-        )
-        Box(modifier = Modifier
+
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
             .height(303.dp)
-            .fillMaxSize()
-            .background(Brush.verticalGradient(colors = listOf(Color.Transparent, Color.Black))
-            )
-        )
+            .zIndex(5f)
+    ) {
+        BackgroundImage(painter)
+
+
         Column(
             verticalArrangement = Arrangement.spacedBy(0.dp),
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(20.dp)
-        ){
-            Row(verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                UserScore(76f)
-                Text(
-                    fontSize = 20.sp,
-                    color = Color.White,
-                    text = "User Score",
-                    modifier = Modifier,
-                    textAlign = TextAlign.Justify
-                )
+            ) {
+                UserScore(score)
+                TextFormat(text = "User score", size = 20.sp, weight = FontWeight.Normal)
             }
 
-            Row(horizontalArrangement = Arrangement.spacedBy(5.dp),
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
                 modifier = Modifier.padding(vertical = 5.dp)
             ) {
-                Text(
-                    text = title,
-                    fontSize = 30.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
 
-                Text(
-                    text = "($year)",
-                    fontSize = 30.sp,
-                    color = Color.White,
-                )
+                TextFormat(text = title, size = 30.sp, weight = FontWeight.Bold)
+                TextFormat(text = "($year)", size = 30.sp, weight = FontWeight.Bold)
             }
 
-            Text(
-                text = date,
-                fontSize = 15.sp,
-                color = Color.White
-            )
+            TextFormat(text = date, size = 15.sp, weight = FontWeight.Normal)
 
-            Row(horizontalArrangement = Arrangement.spacedBy(5.dp),
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
                 modifier = Modifier
                     .padding(bottom = 10.dp)
             ) {
-                Text(
-                    text = genre,
-                    fontSize = 15.sp,
-                    color = Color.White
-                )
+                TextFormat(text = genre, size = 15.sp, weight = FontWeight.Normal)
 
-                Text(
-                    text = duration,
-                    fontSize = 15.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
+                TextFormat(text = duration, size = 15.sp, weight = FontWeight.Bold)
             }
 
             Star()
@@ -123,17 +90,50 @@ fun MainImageDetails(painter: Painter
     }
 }
 
+@Composable
+private fun TextFormat(text: String, size: TextUnit, weight: FontWeight){
+    Text(
+    text = text,
+    fontSize = size,
+    color = Color.White,
+    fontWeight = weight
+    )
+}
 
 @Composable
-fun UserScore(score: Float){
-    Box(modifier = Modifier
-        .height(60.dp)
-        .width(60.dp)
-        ) {
+private fun BackgroundImage(painter: Painter){
+    Image(
+        painter = painter,
+        contentDescription = null,
+        modifier = Modifier
+            .fillMaxSize(),
+        contentScale = ContentScale.Crop,
+        alignment = Alignment.TopCenter
+    )
+
+    Box(
+        modifier = Modifier
+            .height(303.dp)
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(colors = listOf(Color.Transparent, Color.Black))
+            )
+    )
+
+}
+
+@Composable
+private fun UserScore(score: Float) {
+    Box(
+        modifier = Modifier
+            .height(60.dp)
+            .width(60.dp)
+    ) {
         val angle: Float = score / 100 * 360
-        Box(modifier = Modifier
-            .align(Alignment.Center)
-            .zIndex(3f)
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .zIndex(3f)
         ) {
             Row(horizontalArrangement = Arrangement.spacedBy(0.dp)) {
                 Text(
@@ -152,8 +152,9 @@ fun UserScore(score: Float){
                 )
             }
         }
-        Canvas(modifier = Modifier
-            .fillMaxSize()
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
             drawCircle(
                 color = Color.Black,
@@ -162,7 +163,7 @@ fun UserScore(score: Float){
                 alpha = 0.5f
             )
             drawArc(
-                topLeft = Offset(0f,5f),
+                topLeft = Offset(0f, 5f),
                 color = Color.Green,
                 startAngle = 270f,
                 sweepAngle = angle,
@@ -180,20 +181,19 @@ fun UserScore(score: Float){
 }
 
 @Composable
-fun Star(){
+private fun Star() {
     Box(
         modifier = Modifier
             .size(45.dp)
             .clip(shape = RoundedCornerShape(25.dp))
             .background(GrayCircle.copy(alpha = 0.6f)),
-    ){
+    ) {
         Image(
             painter = painterResource(id = R.drawable.star),
             contentDescription = null,
             modifier = Modifier
                 .size(20.dp)
                 .align(Alignment.Center)
-
         )
     }
 }
