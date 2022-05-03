@@ -14,7 +14,7 @@ import com.example.tmdb.data.ButtonData
 import com.example.tmdb.data.ContainerData
 import com.example.tmdb.data.Movie
 import com.example.tmdb.data.listOfMovies
-import com.example.tmdb.navigation.Screen
+import com.example.tmdb.navigation.RootScreen
 import com.example.tmdb.ui.common.Logo
 
 
@@ -22,7 +22,7 @@ import com.example.tmdb.ui.common.Logo
 fun HomeScreen(navController: NavController) {
     HomeLayout(
         listOfMovies = listOfMovies,
-        onMovieCardClick = { navController.navigate(Screen.Details.route) },
+        onMovieCardClick = { navController.navigate(RootScreen.Details.route) },
         onFavoriteButtonClick = {}
     )
 

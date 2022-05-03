@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
+import com.example.tmdb.navigation.RootNavGraph
 import com.example.tmdb.ui.theme.TmdbTheme
 
 class MainActivity : ComponentActivity() {
@@ -11,8 +12,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TmdbTheme {
-                val navController = rememberNavController()
-                MainScreen(navController)
+                val rootNavController = rememberNavController()
+                RootNavGraph(rootNavHostController = rootNavController)
             }
         }
     }
