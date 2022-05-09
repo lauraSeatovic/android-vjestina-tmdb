@@ -14,19 +14,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.rememberNavController
 import com.example.tmdb.navigation.BottomBarScreen
 import com.example.tmdb.navigation.NavGraph
+import com.example.tmdb.navigation.RootNavGraph
 import com.example.tmdb.ui.theme.DeepBlue
 
 
 @Composable
-fun MainScreen(navController: NavHostController) {
-    //val navController = rememberNavController()
+fun MainScreen(rootNavController: NavHostController) {
+    val navController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = { BottomBar(navController = navController) }
     ) {
-        NavGraph(navController = navController)
+        NavGraph(rootNavController, navController)
     }
 }
 

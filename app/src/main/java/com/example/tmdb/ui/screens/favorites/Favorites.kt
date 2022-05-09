@@ -7,20 +7,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tmdb.data.Movie
 import com.example.tmdb.data.listOfMovies
-import com.example.tmdb.navigation.Screen
+import com.example.tmdb.navigation.RootScreen
 import com.example.tmdb.ui.common.Logo
+import com.example.tmdb.ui.common.MovieCard
 import com.example.tmdb.ui.screens.details.Title
 
 @Composable
-fun Favorites(navController: NavController) {
+fun FavoritesScreen(navController: NavController) {
     FavoritesLayout(
         listOfMovies = listOfMovies,
-        onMovieCardClick = { navController.navigate(Screen.Details.route) }
+        onMovieCardClick = { navController.navigate(RootScreen.Details.route) }
     )
 
 }
@@ -72,5 +72,3 @@ fun FavoritesLayout(
         }
     }
 }
-
-

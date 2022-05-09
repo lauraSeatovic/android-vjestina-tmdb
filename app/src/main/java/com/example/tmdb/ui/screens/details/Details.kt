@@ -1,5 +1,6 @@
 package com.example.tmdb.ui.screens.details
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,7 +25,7 @@ import com.example.tmdb.ui.theme.DeepBlue
 
 
 @Composable
-fun Details(navController: NavController) {
+fun DetailsScreen(navController: NavController) {
     DetailsLayout(
         movie = listOfMovies[0],
         onBackIconClick = { navController.navigateUp() }
