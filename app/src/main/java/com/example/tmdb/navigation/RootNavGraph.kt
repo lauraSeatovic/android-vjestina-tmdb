@@ -18,10 +18,8 @@ fun RootNavGraph(rootNavHostController: NavHostController) {
         }
         composable(
             route = RootScreen.Details.route,
-            //arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) { //entry ->
-            //DetailsScreen(rootNavHostController, mediaId = entry.arguments?.getInt("id"))
-            DetailsScreen(rootNavHostController)
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) { entry -> DetailsScreen(rootNavHostController, id = entry.arguments?.getInt("id"))
         }
     }
 }

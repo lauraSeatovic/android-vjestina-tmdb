@@ -13,15 +13,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.tmdb.repository.Movie
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MovieCard(image: Int, onMovieCardClick: () -> Unit, height: Dp, width: Dp) {
+fun MovieCard(favorites : List<Movie>, movie: Movie, onMovieCardClick: (Int) -> Unit, onFavoriteClick: (Int) -> Unit, height: Dp, width: Dp) {
+    val image = movie.image
     Card(modifier = Modifier
         .height(height) //179
         .width(width), //122
         shape = RoundedCornerShape(15.dp),
-        onClick = { onMovieCardClick() }
+        onClick = { onMovieCardClick(movie.id) }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
@@ -31,7 +33,7 @@ fun MovieCard(image: Int, onMovieCardClick: () -> Unit, height: Dp, width: Dp) {
                 modifier = Modifier.fillMaxSize()
             )
             Box(contentAlignment = Alignment.TopEnd, modifier = Modifier.padding(5.dp)) {
-                Heart()
+                Heart(favorites, onFavoriteClick, movie)
             }
         }
     }

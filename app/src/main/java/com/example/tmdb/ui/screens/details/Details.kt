@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,16 +20,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.tmdb.data.Movie
-import com.example.tmdb.data.listOfMovies
+import com.example.tmdb.repository.Movie
+import com.example.tmdb.repository.listOfMovies
 import com.example.tmdb.ui.common.Logo
 import com.example.tmdb.ui.theme.DeepBlue
+import com.example.tmdb.viewModels.DetailsViewModel
+import org.koin.androidx.compose.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 @Composable
-fun DetailsScreen(navController: NavController) {
+fun DetailsScreen(navController: NavController, id: Int?) {
+    val detailsViewModel: DetailsViewModel by viewModel()
+
+    val movie = detailsViewModel.showMovie(id!!)
+
     DetailsLayout(
-        movie = listOfMovies[0],
+        movie = movie,
         onBackIconClick = { navController.navigateUp() }
     )
 }

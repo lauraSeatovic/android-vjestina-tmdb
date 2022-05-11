@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.IconToggleButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -16,24 +17,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.tmdb.repository.Movie
 import com.example.tmdb.ui.theme.DeepBlue
 
-@Preview
 @Composable
-fun Heart() {
+fun Heart(favorites: List<Movie>, onFavoriteClick: (Int) -> Unit, movie: Movie) {
     Box(
         modifier = Modifier
             .size(35.dp)
             .clip(shape = RoundedCornerShape(25.dp))
             .background(DeepBlue.copy(alpha = 0.6f)),
     ) {
-        var isFavorite by remember { mutableStateOf(false) }
+        var isFavorite = favorites.contains(movie)
 
-        IconToggleButton(
-            checked = isFavorite,
-            onCheckedChange = {
-                isFavorite = !isFavorite
-            }
+        IconButton(
+            onClick = {onFavoriteClick(movie.id)}
+
         ) {
             Icon(
                 imageVector = if (isFavorite) {

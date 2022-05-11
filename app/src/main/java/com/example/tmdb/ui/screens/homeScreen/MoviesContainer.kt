@@ -15,12 +15,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tmdb.data.ContainerData
+import com.example.tmdb.repository.Movie
 import com.example.tmdb.ui.common.MovieCard
 import com.example.tmdb.ui.theme.*
 
 
 @Composable
-fun MoviesContainer(container: ContainerData, onMovieCardClick: () -> Unit) {
+fun MoviesContainer(favorites: List<Movie>, container: ContainerData, onMovieCardClick: (Int) -> Unit, onFavoriteClick: (Int) -> Unit) {
     Column(
         modifier = Modifier
             .padding(10.dp)
@@ -77,7 +78,7 @@ fun MoviesContainer(container: ContainerData, onMovieCardClick: () -> Unit) {
         }
         LazyRow(state = listState, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             items(items = container.movies) { item ->
-                MovieCard(item.image, onMovieCardClick, 179.dp, 122.dp)
+                MovieCard(favorites, item, onMovieCardClick, onFavoriteClick, 179.dp, 122.dp)
             }
         }
     }

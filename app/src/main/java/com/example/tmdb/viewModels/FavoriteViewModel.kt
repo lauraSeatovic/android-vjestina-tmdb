@@ -1,21 +1,20 @@
 package com.example.tmdb.viewModels
 
+import android.util.Log
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tmdb.repository.Movie
 import com.example.tmdb.repository.MovieRepository
 import com.example.tmdb.repository.MovieRepositoryImpl
-import com.example.tmdb.repository.listOfMovies
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 
-class HomeViewModel(private val movieRepository: MovieRepositoryImpl) : ViewModel() {
+class FavoriteViewModel(private val movieRepository: MovieRepositoryImpl) : ViewModel() {
 
-    fun getPopular(): Flow<List<Movie>> = movieRepository.popularMovies()
-    fun getFree(): Flow<List<Movie>> = movieRepository.freeMovies()
-    fun getTrending(): Flow<List<Movie>> = movieRepository.trendingMovies()
 
     private var _viewState = MutableStateFlow<List<Movie>>(emptyList())
     val viewState: StateFlow<List<Movie>> = _viewState.asStateFlow()
