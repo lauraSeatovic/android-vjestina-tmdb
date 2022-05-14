@@ -20,11 +20,21 @@ class FavoriteViewModel(private val movieRepository: MovieRepositoryImpl) : View
     val viewState: StateFlow<List<Movie>> = _viewState.asStateFlow()
 
     fun fetchFavorite() {
-        _viewState.value = movieRepository.favoriteMovies()
+        viewModelScope.launch {
+            movieRepository.favoriteMovies()
+                .collect { favoriteMovies ->
+                    _viewState.value = favoriteMovies
+                }
+        }
     }
 
     fun updateFavorite(movieId: Int) {
         movieRepository.updateFavorites(movieId)
-        _viewState.value = movieRepository.favoriteMovies()
+        viewModelScope.launch {
+            movieRepository.favoriteMovies()
+                .collect { favoriteMovies ->
+                    _viewState.value = favoriteMovies
+                }
+        }
     }
 }

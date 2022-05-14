@@ -9,7 +9,7 @@ interface MovieRepository {
 
     fun trendingMovies(): Flow<List<Movie>>
 
-    fun favoriteMovies(): List<Movie>
+    fun favoriteMovies():  Flow<List<Movie>>
 
     fun movieDetails(movieId: Int): Flow<Movie>
 

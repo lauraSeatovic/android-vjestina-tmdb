@@ -25,8 +25,12 @@ class MovieRepositoryImpl(private val movieDatabase: MovieDatabaseImpl) : MovieR
         }
 
 
-    override fun favoriteMovies(): List<Movie> =
-        movieDatabase.getFavoriteMovies().toList()
+    override fun favoriteMovies(): Flow<List<Movie>> =
+        flow {
+            val favorite = movieDatabase.getFavoriteMovies().toList()
+            emit(favorite)
+        }
+
 
     override fun movieDetails(movieId: Int): Flow<Movie> =
         flow {
