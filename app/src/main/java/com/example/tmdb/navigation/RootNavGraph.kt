@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.tmdb.MainScreen
 import com.example.tmdb.ui.screens.details.DetailsScreen
+import com.example.tmdb.ui.screens.search.SearchScreen
 
 @Composable
 fun RootNavGraph(rootNavHostController: NavHostController) {
@@ -19,7 +20,11 @@ fun RootNavGraph(rootNavHostController: NavHostController) {
         composable(
             route = RootScreen.Details.route,
             arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) { entry -> DetailsScreen(rootNavHostController, id = entry.arguments?.getInt("id"))
+        ) { entry ->
+            DetailsScreen(rootNavHostController, id = entry.arguments?.getInt("id"))
+        }
+        composable(RootScreen.Search.route) {
+            SearchScreen(rootNavHostController)
         }
     }
 }

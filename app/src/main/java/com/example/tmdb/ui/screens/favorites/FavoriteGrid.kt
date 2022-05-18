@@ -8,11 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.tmdb.repository.Movie
-import com.example.tmdb.repository.listOfMovies
 import com.example.tmdb.ui.common.MovieCard
 
 @Composable
-fun FavoriteGrid(movies: List<Movie>, onMovieCardClick: (Int) -> Unit, onFavoriteClick: (Int) -> Unit) {
+fun FavoriteGrid(
+    movies: List<Movie>,
+    onMovieCardClick: (Int) -> Unit,
+    onFavoriteClick: (Int) -> Unit
+) {
     val quantity = movies.size
     var rows: Int = quantity / 3
     if (quantity % 3 != 0) {
@@ -36,7 +39,14 @@ fun FavoriteGrid(movies: List<Movie>, onMovieCardClick: (Int) -> Unit, onFavorit
             ) {
                 while ((counterColumns < 3) and (counter < quantity)) {
 
-                    MovieCard(listOfMovies, movies[counter], onMovieCardClick, onFavoriteClick, 160.dp, 100.dp)
+                    MovieCard(
+                        movies,
+                        movies[counter],
+                        onMovieCardClick,
+                        onFavoriteClick,
+                        160.dp,
+                        100.dp
+                    )
 
                     counterColumns += 1
                     counter += 1

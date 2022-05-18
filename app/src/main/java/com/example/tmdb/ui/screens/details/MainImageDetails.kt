@@ -1,5 +1,7 @@
 package com.example.tmdb.ui.screens.details
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -19,6 +21,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -26,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.example.tmdb.R
 import com.example.tmdb.ui.theme.GrayCircle
+import java.time.LocalDate
 
 
 @Composable
@@ -35,11 +39,12 @@ fun MainImageDetails(
     year: Int,
     date: String,
     genre: String,
-    duration: String,
+    duration: Int,
     score: Float
 
 
 ) {
+    val year = date.substring(0, 4)
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -65,24 +70,26 @@ fun MainImageDetails(
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(5.dp),
-                modifier = Modifier.padding(vertical = 5.dp)
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+                    .fillMaxWidth(0.9f)
             ) {
 
-                TextFormat(text = title, size = 30.sp, weight = FontWeight.Bold)
-                TextFormat(text = "($year)", size = 30.sp, weight = FontWeight.Bold)
+                TextFormat(text = title + " ($year)", size = 25.sp, weight = FontWeight.Bold)
+                //TextFormat(text = "($year)", size = 25.sp, weight = FontWeight.Bold)
             }
 
             TextFormat(text = date, size = 15.sp, weight = FontWeight.Normal)
 
             Row(
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
                 modifier = Modifier
-                    .padding(bottom = 10.dp)
+                    .padding(bottom = 5.dp)
             ) {
-                TextFormat(text = genre, size = 15.sp, weight = FontWeight.Normal)
+                Text(genre.substring(1, genre.length - 1), fontSize = 15.sp, fontWeight = FontWeight.Normal, color = Color.White, modifier = Modifier.fillMaxWidth(0.7f))
 
-                TextFormat(text = duration, size = 15.sp, weight = FontWeight.Bold)
             }
+            Text(convertTime(duration), fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.padding(bottom = 5.dp))
+
 
             Star()
         }
@@ -129,7 +136,7 @@ private fun UserScore(score: Float) {
             .height(60.dp)
             .width(60.dp)
     ) {
-        val angle: Float = score / 100 * 360
+        val angle: Float = score / 10 * 360
         Box(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -137,7 +144,7 @@ private fun UserScore(score: Float) {
         ) {
             Row(horizontalArrangement = Arrangement.spacedBy(0.dp)) {
                 Text(
-                    text = score.toInt().toString(),
+                    text = (score*10).toInt().toString(),
                     color = Color.White,
                     fontSize = 20.sp,
                     modifier = Modifier
@@ -196,4 +203,13 @@ private fun Star() {
                 .align(Alignment.Center)
         )
     }
+}
+
+private fun convertTime(time: Int): String{
+    val h = time / 60
+    val m = time % 60
+    return if (h==0)
+        (m.toString() + "m")
+    else
+        (h.toString() + "h" + m.toString() + "m")
 }
