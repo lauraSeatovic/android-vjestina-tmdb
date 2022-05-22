@@ -85,7 +85,7 @@ fun HomeLayout(
 
                     val buttonListUpcoming: List<ButtonData> =
                         listOf(ButtonData(1, "Today"), ButtonData(2, "This Week"))
-                    val upcoming = ContainerData("Upcomig", buttonListUpcoming, upcoming)
+                    val upcoming = ContainerData("Upcoming", buttonListUpcoming, upcoming)
                     MoviesContainer(favorites, upcoming, onMovieCardClick, onFavoriteClick)
 
                     Spacer(modifier = Modifier.height(60.dp))
