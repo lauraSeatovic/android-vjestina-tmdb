@@ -26,14 +26,13 @@ fun MovieCard(
     height: Dp,
     width: Dp
 ) {
-    val image = movie.image
     Card(modifier = Modifier
         .height(height) //179
         .width(width), //122
         shape = RoundedCornerShape(15.dp),
         onClick = { onMovieCardClick(movie.id) }
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box() {
             Image(
                 painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w500${movie.image}"),
                 contentDescription = null,

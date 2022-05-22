@@ -1,18 +1,18 @@
 package com.example.tmdb.ui.screens.favorites
 
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tmdb.repository.Movie
 import com.example.tmdb.ui.common.Logo
-import com.example.tmdb.ui.screens.details.Title
+import com.example.tmdb.ui.common.Title
 import com.example.tmdb.viewModels.FavoriteViewModel
 import org.koin.androidx.compose.viewModel
 
@@ -30,6 +30,7 @@ fun FavoritesScreen(navController: NavController) {
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FavoritesLayout(
     listOfMovies: List<Movie>,
@@ -39,42 +40,17 @@ fun FavoritesLayout(
     ) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
             .background(Color.White)
 
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
 
         ) {
             Logo()
-            Box(
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .padding(horizontal = 20.dp)
-            ) {
+            Box(modifier = Modifier.padding(10.dp)) {
                 Title("Favorites")
             }
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .align(Alignment.CenterHorizontally)
-
-            ) {
-                item {
-
-                    Box(
-                        modifier = Modifier
-                            .padding(vertical = 20.dp)
-                    ) {
-                        FavoriteGrid(listOfMovies, onMovieCardClick, onFavoriteClick)
-                    }
-
-                    Spacer(modifier = Modifier.height(60.dp))
-                }
-            }
+            FavoriteGrid(movies = listOfMovies, onMovieCardClick =onMovieCardClick , onFavoriteClick = onFavoriteClick)
         }
     }
 }

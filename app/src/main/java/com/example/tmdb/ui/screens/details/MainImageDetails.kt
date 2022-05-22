@@ -75,7 +75,7 @@ fun MainImageDetails(
                     .fillMaxWidth(0.9f)
             ) {
 
-                TextFormat(text = title + " ($year)", size = 25.sp, weight = FontWeight.Bold)
+                TextFormat(text = "$title ($year)", size = 25.sp, weight = FontWeight.Bold)
                 //TextFormat(text = "($year)", size = 25.sp, weight = FontWeight.Bold)
             }
 

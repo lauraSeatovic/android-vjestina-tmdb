@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.tmdb.repository.MovieDetails
 import com.example.tmdb.ui.common.Logo
+import com.example.tmdb.ui.common.Title
 import com.example.tmdb.ui.theme.DeepBlue
 import com.example.tmdb.viewModels.DetailsViewModel
 import org.koin.androidx.compose.viewModel
@@ -85,17 +86,6 @@ fun DetailsLayout(
             }
         }
     }
-}
-
-
-@Composable
-fun Title(title: String) {
-    Text(
-        text = title,
-        color = DeepBlue,
-        fontSize = 25.sp,
-        fontWeight = FontWeight.Bold
-    )
 }
 
 
