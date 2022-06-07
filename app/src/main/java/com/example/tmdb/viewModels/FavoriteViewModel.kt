@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 
 
 class FavoriteViewModel(private val movieRepository: MovieRepositoryImpl) : ViewModel() {
-
-
     private var _viewState = MutableStateFlow<List<Movie>>(emptyList())
     val viewState: StateFlow<List<Movie>> = _viewState.asStateFlow()
 

@@ -1,48 +1,39 @@
 package com.example.tmdb.ui.screens.favorites
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.tmdb.repository.Movie
-import com.example.tmdb.repository.listOfMovies
 import com.example.tmdb.ui.common.MovieCard
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FavoriteGrid(movies: List<Movie>, onMovieCardClick: (Int) -> Unit, onFavoriteClick: (Int) -> Unit) {
-    val quantity = movies.size
-    var rows: Int = quantity / 3
-    if (quantity % 3 != 0) {
-        rows += 1
-    }
+fun FavoriteGrid(
+    movies: List<Movie>,
+    onMovieCardClick: (Int) -> Unit,
+    onFavoriteClick: (Int) -> Unit
+) {
+    LazyVerticalGrid(
+        cells = GridCells.Fixed(3),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        contentPadding = PaddingValues(horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = Modifier.fillMaxHeight(0.9f)
 
-    var counter = 0
-    var counterRows = 0
-    var counterColumns: Int
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(30.dp)
     ) {
-        while (counterRows < rows) {
-            counterColumns = 0
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-
-            ) {
-                while ((counterColumns < 3) and (counter < quantity)) {
-
-                    MovieCard(listOfMovies, movies[counter], onMovieCardClick, onFavoriteClick, 160.dp, 100.dp)
-
-                    counterColumns += 1
-                    counter += 1
-                }
-            }
-            counterRows += 1
+        items(movies.size) { index ->
+            MovieCard(
+                favorites = movies,
+                movie = movies[index],
+                onMovieCardClick = onMovieCardClick,
+                onFavoriteClick = onFavoriteClick,
+                height = 160.dp,
+                width = 100.dp
+            )
         }
     }
 }

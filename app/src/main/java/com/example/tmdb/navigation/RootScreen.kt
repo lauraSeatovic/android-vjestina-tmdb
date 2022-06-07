@@ -14,4 +14,10 @@ sealed class RootScreen(
         route = "details_screen/{id}",
         title = "Details"
     )
+
+    object Search : RootScreen(
+        route = "search_screen",
+        title = "Search"
+    )
+
 }

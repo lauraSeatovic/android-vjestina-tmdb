@@ -1,6 +1,5 @@
 package com.example.tmdb.ui.screens.details
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,28 +11,26 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.tmdb.repository.Movie
-import com.example.tmdb.repository.listOfMovies
+import coil.compose.rememberAsyncImagePainter
+import com.example.tmdb.repository.MovieDetails
 import com.example.tmdb.ui.common.Logo
+import com.example.tmdb.ui.common.Title
 import com.example.tmdb.ui.theme.DeepBlue
 import com.example.tmdb.viewModels.DetailsViewModel
 import org.koin.androidx.compose.viewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 @Composable
 fun DetailsScreen(navController: NavController, id: Int?) {
     val detailsViewModel: DetailsViewModel by viewModel()
 
-    val movie = detailsViewModel.showMovie(id!!)
+    val movie by detailsViewModel.showMovie(id!!).collectAsState(initial = null)
 
     DetailsLayout(
         movie = movie,
@@ -43,7 +40,7 @@ fun DetailsScreen(navController: NavController, id: Int?) {
 
 @Composable()
 fun DetailsLayout(
-    movie: Movie,
+    movie: MovieDetails?,
     onBackIconClick: () -> Unit
 ) {
     Box(
@@ -62,15 +59,17 @@ fun DetailsLayout(
                         )
                     }
                 }
-                MainImageDetails(
-                    painter = painterResource(movie.image),
-                    movie.title,
-                    movie.year,
-                    movie.date,
-                    movie.genre,
-                    movie.duration,
-                    movie.score.toFloat()
-                )
+                if (movie != null) {
+                    MainImageDetails(
+                        painter = rememberAsyncImagePainter(movie.image),
+                        title = movie.title,
+                        year = 2000,
+                        date = movie.releaseDate,
+                        genre = movie.genres.toString(),
+                        duration = movie.runtime,
+                        score = movie.vote
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .padding(horizontal = 20.dp)
@@ -78,26 +77,11 @@ fun DetailsLayout(
                 ) {
                     Title("Overview")
                 }
-                MovieDescription(description = movie.description)
-                WritersGrid(
-                    quantity = movie.authors.size,
-                    names = movie.authors
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .padding(top = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-
-                ) {
-                    Title(title = "Top Billed Cast")
-                    Title2(title = "Full Cast & Crew")
+                if (movie != null) {
+                    MovieDescription(description = movie.overview)
+                    WritersGrid(movie.fullCrew)
+                    CastRow(castList = listOf(movie.mainCast, movie.fullCrew))
                 }
-
-                CastRow(castList = movie.topCast)
-
                 Spacer(modifier = Modifier.height(60.dp))
             }
         }
@@ -106,33 +90,13 @@ fun DetailsLayout(
 
 
 @Composable
-fun Title(title: String) {
-    Text(
-        text = title,
-        color = DeepBlue,
-        fontSize = 25.sp,
-        fontWeight = FontWeight.Bold
-    )
-}
-
-@Composable
-private fun Title2(title: String) {
-    Text(
-        text = title,
-        color = DeepBlue,
-        fontSize = 15.sp,
-        fontWeight = FontWeight.Bold
-    )
-}
-
-@Composable
 private fun MovieDescription(description: String) {
     Text(
         text = description,
         color = Color.Black,
         fontSize = 17.sp,
         modifier = Modifier
-            .padding(start = 20.dp, top = 5.dp)
+            .padding(start = 20.dp, top = 5.dp, end = 20.dp)
     )
 }
 

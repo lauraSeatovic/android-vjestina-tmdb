@@ -13,21 +13,28 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.example.tmdb.repository.Movie
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MovieCard(favorites : List<Movie>, movie: Movie, onMovieCardClick: (Int) -> Unit, onFavoriteClick: (Int) -> Unit, height: Dp, width: Dp) {
-    val image = movie.image
+fun MovieCard(
+    favorites: List<Movie>,
+    movie: Movie,
+    onMovieCardClick: (Int) -> Unit,
+    onFavoriteClick: (Int) -> Unit,
+    height: Dp,
+    width: Dp
+) {
     Card(modifier = Modifier
         .height(height) //179
         .width(width), //122
         shape = RoundedCornerShape(15.dp),
         onClick = { onMovieCardClick(movie.id) }
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box() {
             Image(
-                painter = painterResource(id = image),
+                painter = rememberAsyncImagePainter(movie.image),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

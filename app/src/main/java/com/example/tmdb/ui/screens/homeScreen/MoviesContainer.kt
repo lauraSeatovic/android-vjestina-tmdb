@@ -21,7 +21,12 @@ import com.example.tmdb.ui.theme.*
 
 
 @Composable
-fun MoviesContainer(favorites: List<Movie>, container: ContainerData, onMovieCardClick: (Int) -> Unit, onFavoriteClick: (Int) -> Unit) {
+fun MoviesContainer(
+    favorites: List<Movie>,
+    container: ContainerData,
+    onMovieCardClick: (Int) -> Unit,
+    onFavoriteClick: (Int) -> Unit
+) {
     Column(
         modifier = Modifier
             .padding(10.dp)
@@ -63,10 +68,6 @@ fun MoviesContainer(favorites: List<Movie>, container: ContainerData, onMovieCar
                         }
                         .padding(bottom = 5.dp)
                         .padding(horizontal = 2.dp)
-                        /*.background(
-                            if (item.id == selectedIndex)
-                                Color.Red else Color.Transparent
-                        )*/
                         .selectable(
                             selected = item.id == selectedIndex,
                             onClick = {
@@ -76,7 +77,7 @@ fun MoviesContainer(favorites: List<Movie>, container: ContainerData, onMovieCar
                 )
             }
         }
-        LazyRow(state = listState, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             items(items = container.movies) { item ->
                 MovieCard(favorites, item, onMovieCardClick, onFavoriteClick, 179.dp, 122.dp)
             }
