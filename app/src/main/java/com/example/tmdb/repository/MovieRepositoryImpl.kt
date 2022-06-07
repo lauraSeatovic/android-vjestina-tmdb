@@ -5,6 +5,10 @@ import com.example.tmdb.api.MovieApiImpl
 import com.example.tmdb.api.MovieListResponse
 import com.example.tmdb.api.MovieResponse
 import com.example.tmdb.data.CrewData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.*
 
 
@@ -12,45 +16,39 @@ class MovieRepositoryImpl(
     private val movieDatabase: MovieDatabaseImpl,
     private val movieApi: MovieApiImpl
 ) : MovieRepository {
-    override fun popularMovies(): Flow<List<Movie>> = flow {
-        val popular: MutableList<Movie> = mutableListOf()
-        val movies = movieApi.getPopularMovies().movies
-        for (movie in movies) {
-            popular.add(Movie(id = movie.id, title = movie.title, image = movie.posterPath))
-        }
-        movieDatabase.addMovies(popular)
-        emit(popular)
+    private val popularMoviesFlow = flow {
+        val movies = movieApi.getPopularMovies().movies.map { (Movie(id = it.id, title = it.title, image = "https://image.tmdb.org/t/p/w500${it.posterPath}")) }
+        movieDatabase.addMovies(movies)
+        emit(movies)
     }
 
-    override fun nowPlaying(): Flow<List<Movie>> = flow {
-        val nowPlaying: MutableList<Movie> = mutableListOf()
-        val movies = movieApi.getNowPlayingMovies().movies
-        for (movie in movies) {
-            nowPlaying.add(Movie(id = movie.id, title = movie.title, image = movie.posterPath))
-        }
-        movieDatabase.addMovies(nowPlaying)
-        emit(nowPlaying)
+
+    override fun popularMovies(): Flow<List<Movie>> = popularMoviesFlow
+
+
+    private val nowPlayingMoviesFlow = flow {
+        val movies = movieApi.getNowPlayingMovies().movies.map { (Movie(id = it.id, title = it.title, image = "https://image.tmdb.org/t/p/w500${it.posterPath}")) }
+        movieDatabase.addMovies(movies)
+        emit(movies)
     }
 
-    override fun upcoming(): Flow<List<Movie>> = flow {
-        val upcoming: MutableList<Movie> = mutableListOf()
-        val movies = movieApi.getUpcomingMovies().movies
-        for (movie in movies) {
-            upcoming.add(Movie(id = movie.id, title = movie.title, image = movie.posterPath))
-        }
-        movieDatabase.addMovies(upcoming)
-        emit(upcoming)
+    override fun nowPlaying(): Flow<List<Movie>> = nowPlayingMoviesFlow
+
+    private val upcomingMoviesFlow = flow {
+        val movies = movieApi.getUpcomingMovies().movies.map { (Movie(id = it.id, title = it.title, image = "https://image.tmdb.org/t/p/w500${it.posterPath}")) }
+        movieDatabase.addMovies(movies)
+        emit(movies)
     }
 
-    override fun topRated(): Flow<List<Movie>> = flow {
-        val topRated: MutableList<Movie> = mutableListOf()
-        val movies = movieApi.getTopRatedMovies().movies
-        for (movie in movies) {
-            topRated.add(Movie(id = movie.id, title = movie.title, image = movie.posterPath))
-        }
-        movieDatabase.addMovies(topRated)
-        emit(topRated)
+    override fun upcoming(): Flow<List<Movie>> = upcomingMoviesFlow
+
+    private val topRatedMoviesFlow = flow {
+        val movies = movieApi.getTopRatedMovies().movies.map { (Movie(id = it.id, title = it.title, image = "https://image.tmdb.org/t/p/w500${it.posterPath}")) }
+        movieDatabase.addMovies(movies)
+        emit(movies)
     }
+
+    override fun topRated(): Flow<List<Movie>> = topRatedMoviesFlow
 
     override fun favoriteMovies(): Flow<List<Movie>> =
         flow {
@@ -63,10 +61,7 @@ class MovieRepositoryImpl(
         flow {
             val movie = movieApi.getDetails(movieId)
 
-            val genres = mutableListOf<String>()
-            for (genre in movie.genres) {
-                genres.add(genre.name)
-            }
+            val genres = movie.genres.map { it.name }
 
             val credits = movieApi.getCredits(movieId)
 
@@ -74,19 +69,19 @@ class MovieRepositoryImpl(
             val fullCrew = mutableListOf<CrewData>()
 
             for (crew in credits.crew) {
-                fullCrew.add(CrewData(crew.profilePath, crew.name, crew.job))
+                fullCrew.add(CrewData("https://image.tmdb.org/t/p/w500${crew.profilePath}", crew.name, crew.job))
             }
 
             for (crew in credits.cast) {
                 if (crew.order <= 6)
-                    mainCast.add(CrewData(crew.profilePath, crew.name, crew.character))
-                fullCrew.add(CrewData(crew.profilePath, crew.name, crew.character))
+                    mainCast.add(CrewData("https://image.tmdb.org/t/p/w500${crew.profilePath}", crew.name, crew.character))
+                fullCrew.add(CrewData("https://image.tmdb.org/t/p/w500${crew.profilePath}", crew.name, crew.character))
             }
 
 
             val movieDetails = MovieDetails(
                 movie.id,
-                movie.posterPath,
+                "https://image.tmdb.org/t/p/w500${movie.posterPath}",
                 movie.title,
                 movie.releaseDate,
                 movie.vote,
@@ -126,7 +121,7 @@ class MovieRepositoryImpl(
                     Movie(
                         id = movie.id,
                         title = movie.title,
-                        image = movie.posterPath,
+                        image = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
                         overview = movie.overview
                     )
                 )

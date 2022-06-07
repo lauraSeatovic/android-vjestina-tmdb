@@ -91,7 +91,7 @@ fun CastCard(actor: CrewData) {
             Image(
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.TopCenter,
-                painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w500${actor.image}"),
+                painter = rememberAsyncImagePainter(actor.image),
                 contentDescription = actor.name,
                 modifier = Modifier
                     .height(130.dp)

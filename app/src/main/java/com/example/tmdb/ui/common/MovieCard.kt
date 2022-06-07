@@ -34,7 +34,7 @@ fun MovieCard(
     ) {
         Box() {
             Image(
-                painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w500${movie.image}"),
+                painter = rememberAsyncImagePainter(movie.image),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

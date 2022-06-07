@@ -61,7 +61,7 @@ fun DetailsLayout(
                 }
                 if (movie != null) {
                     MainImageDetails(
-                        painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w500${movie.image}"),
+                        painter = rememberAsyncImagePainter(movie.image),
                         title = movie.title,
                         year = 2000,
                         date = movie.releaseDate,

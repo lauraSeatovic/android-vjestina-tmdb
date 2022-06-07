@@ -36,7 +36,7 @@ fun SearchResultCard(movie: Movie, onSearchCardClick: (Int) -> Unit) {
     ) {
         Row(modifier = Modifier) {
             Image(
-                painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w500${movie.image}"),
+                painter = rememberAsyncImagePainter(movie.image),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxHeight()
