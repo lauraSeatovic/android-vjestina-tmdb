@@ -1,6 +1,8 @@
 package com.example.tmdb.repository
 
+import androidx.room.Entity
 import com.example.tmdb.data.CrewData
+
 
 
 data class Movie(
@@ -9,6 +11,7 @@ data class Movie(
     val title: String = "",
     val overview: String = ""
 )
+
 
 data class MovieDetails(
     val id: Int,

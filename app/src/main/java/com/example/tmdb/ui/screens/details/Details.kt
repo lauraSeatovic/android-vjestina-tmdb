@@ -30,10 +30,15 @@ import org.koin.androidx.compose.viewModel
 fun DetailsScreen(navController: NavController, id: Int?) {
     val detailsViewModel: DetailsViewModel by viewModel()
 
-    val movie by detailsViewModel.showMovie(id!!).collectAsState(initial = null)
-
+    var showMovie: MovieDetails?
+    val movieDb by detailsViewModel.showMovieDb(id!!).collectAsState(initial = null)
+    showMovie = movieDb
+    if (movieDb == null) {
+        val movie by detailsViewModel.showMovie(id!!).collectAsState(initial = null)
+        showMovie = movie
+    }
     DetailsLayout(
-        movie = movie,
+        movie = showMovie,
         onBackIconClick = { navController.navigateUp() }
     )
 }
