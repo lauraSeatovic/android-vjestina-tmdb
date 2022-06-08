@@ -2,13 +2,7 @@ package com.example.tmdb.repository
 
 import android.util.Log
 import com.example.tmdb.api.MovieApiImpl
-import com.example.tmdb.api.MovieListResponse
-import com.example.tmdb.api.MovieResponse
 import com.example.tmdb.data.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.*
 
 
@@ -18,8 +12,6 @@ class MovieRepositoryImpl(
 ) : MovieRepository {
 
     val dao = database.Dao()
-
-    val movieDatabase = MovieDatabaseImpl()
 
     @Throws(NullPointerException::class)
     fun getMovieFromDb(movieId: Int): Flow<MovieDetails?>{
@@ -124,7 +116,6 @@ class MovieRepositoryImpl(
 
     private val popularMoviesFlow = flow {
         val movies = movieApi.getPopularMovies().movies.map { (Movie(id = it.id, title = it.title, image = "https://image.tmdb.org/t/p/w500${it.posterPath}")) }
-        movieDatabase.addMovies(movies)
         emit(movies)
     }
 
@@ -134,7 +125,6 @@ class MovieRepositoryImpl(
 
     private val nowPlayingMoviesFlow = flow {
         val movies = movieApi.getNowPlayingMovies().movies.map { (Movie(id = it.id, title = it.title, image = "https://image.tmdb.org/t/p/w500${it.posterPath}")) }
-        movieDatabase.addMovies(movies)
         emit(movies)
     }
 
@@ -142,7 +132,6 @@ class MovieRepositoryImpl(
 
     private val upcomingMoviesFlow = flow {
         val movies = movieApi.getUpcomingMovies().movies.map { (Movie(id = it.id, title = it.title, image = "https://image.tmdb.org/t/p/w500${it.posterPath}")) }
-        movieDatabase.addMovies(movies)
         emit(movies)
     }
 
@@ -150,7 +139,6 @@ class MovieRepositoryImpl(
 
     private val topRatedMoviesFlow = flow {
         val movies = movieApi.getTopRatedMovies().movies.map { (Movie(id = it.id, title = it.title, image = "https://image.tmdb.org/t/p/w500${it.posterPath}")) }
-        movieDatabase.addMovies(movies)
         emit(movies)
     }
 
@@ -202,11 +190,6 @@ class MovieRepositoryImpl(
             )
             emit(movieDetails)
         }
-
-    override fun showMovie(id: Int): Movie {
-        return movieDatabase.getMovieById(id)
-    }
-
 
 
     override suspend fun updateFavorites(movieId: Int) {

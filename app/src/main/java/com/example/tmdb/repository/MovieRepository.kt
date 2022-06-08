@@ -8,7 +8,6 @@ interface MovieRepository {
     fun favoriteMovies(): Flow<List<DbMovie>>
     fun movieDetails(movieId: Int): Flow<MovieDetails>
     suspend fun updateFavorites(movieId: Int)
-    fun showMovie(id: Int): Movie
     fun nowPlaying(): Flow<List<Movie>>
     fun upcoming(): Flow<List<Movie>>
     fun topRated(): Flow<List<Movie>>
