@@ -29,6 +29,7 @@ fun HomeScreen(navController: NavController) {
     val topRated by homeViewModel.getTopRated().collectAsState(initial = emptyList())
     val upcoming by homeViewModel.getUpcoming().collectAsState(initial = emptyList())
 
+
     HomeLayout(
         favorites = favorites.value,
         popular = popular,

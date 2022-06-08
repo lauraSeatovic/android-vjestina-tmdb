@@ -1,5 +1,6 @@
 package com.example.tmdb.ui.common
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -22,13 +23,14 @@ import com.example.tmdb.ui.theme.DeepBlue
 
 @Composable
 fun Heart(favorites: List<Movie>, onFavoriteClick: (Int) -> Unit, movie: Movie) {
+    Log.i("fav", favorites.toString())
     Box(
         modifier = Modifier
             .size(35.dp)
             .clip(shape = RoundedCornerShape(25.dp))
             .background(DeepBlue.copy(alpha = 0.6f)),
     ) {
-        var isFavorite = favorites.contains(movie)
+        var isFavorite = favorites.map { it.id }.contains(movie.id)
 
         IconButton(
             onClick = {onFavoriteClick(movie.id)}

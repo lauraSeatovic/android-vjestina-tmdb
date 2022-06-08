@@ -1,5 +1,6 @@
 package com.example.tmdb.viewModels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tmdb.api.MovieListResponse
@@ -28,17 +29,17 @@ class HomeViewModel(private val movieRepository: MovieRepositoryImpl) : ViewMode
         viewModelScope.launch {
             movieRepository.favoriteMovies()
                 .collect { favoriteMovies ->
-                    _viewState.value = favoriteMovies
+                    _viewState.value = favoriteMovies.map { Movie(it.id, it.image, it.title, it.overview) }
                 }
         }
     }
 
     fun updateFavorite(movieId: Int) {
-        movieRepository.updateFavorites(movieId)
         viewModelScope.launch {
+            movieRepository.updateFavorites(movieId)
             movieRepository.favoriteMovies()
                 .collect { favoriteMovies ->
-                    _viewState.value = favoriteMovies
+                    _viewState.value = favoriteMovies.map { Movie(it.id, it.image, it.title, it.overview) }
                 }
         }
     }

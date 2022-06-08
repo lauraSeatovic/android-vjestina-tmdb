@@ -21,17 +21,17 @@ class FavoriteViewModel(private val movieRepository: MovieRepositoryImpl) : View
         viewModelScope.launch {
             movieRepository.favoriteMovies()
                 .collect { favoriteMovies ->
-                    _viewState.value = favoriteMovies
+                    _viewState.value = favoriteMovies.map { Movie(it.id, it.image, it.title, it.overview) }
                 }
         }
     }
 
     fun updateFavorite(movieId: Int) {
-        movieRepository.updateFavorites(movieId)
         viewModelScope.launch {
+            movieRepository.updateFavorites(movieId)
             movieRepository.favoriteMovies()
                 .collect { favoriteMovies ->
-                    _viewState.value = favoriteMovies
+                    _viewState.value = favoriteMovies.map { Movie(it.id, it.image, it.title, it.overview) }
                 }
         }
     }

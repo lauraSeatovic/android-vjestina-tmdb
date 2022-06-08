@@ -1,7 +1,7 @@
 package com.example.tmdb.repository
 
 class MovieDatabaseImpl : MovieDatabase {
-    val favoriteMoviesSet: MutableSet<Movie> = mutableSetOf<Movie>()
+    val favoriteMoviesSet: MutableSet<Movie> = mutableSetOf()
 
     val allMovies: MutableList<Movie> = mutableListOf()
     override fun getFavoriteMovies(): Set<Movie> {
